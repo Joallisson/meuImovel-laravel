@@ -19,4 +19,9 @@ class RealStateController extends Controller
 
        return response()->json($realState, 200);
    }
+
+   public function store(Request $request){
+
+        return response()->json($request->all(), 200);
+   }
 }

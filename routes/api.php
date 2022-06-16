@@ -23,6 +23,6 @@ Route::prefix('v1')->group(function(){
 
     Route::prefix('real-states')->name('real-states')->group(function(){
 
-        Route::get('/', [RealStateController::class, 'index'])->name('index');
+        Route::resource('/', RealStateController::class);
     });
 });
