@@ -20,6 +20,23 @@ class RealStateController extends Controller
        return response()->json($realState, 200);
    }
 
+   public function show($id){
+
+        try {
+
+            $realState = $this->realState->findOrFail($id);
+
+             return response()->json([
+                'data' => $realState
+             ]);
+
+        } catch (\Throwable $th) {
+
+            return response()->json(['error' => $th->getMessage()], 401);
+        }
+
+   }
+
    public function store(Request $request){
 
         $data = $request->all();
@@ -37,7 +54,7 @@ class RealStateController extends Controller
             return response()->json(['error' => $th->getMessage()], 401);
         }
 
-        
+
    }
 
    public function update($id, Request $request){
@@ -52,6 +69,23 @@ class RealStateController extends Controller
         return response()->json([
             'data' => [
                 'msg' => 'imóvel atualizado com sucesso'
+            ]
+        ]);
+    } catch (\Throwable $th) {
+        return response()->json(['error' => $th->getMessage()], 401);
+    }
+   }
+
+   public function destroy($id){
+
+    try {
+
+        $realState = $this->realState->findOrFail($id);
+        $realState->delete();
+
+        return response()->json([
+            'data' => [
+                'msg' => 'Ímóvel removido com sucesso'
             ]
         ]);
     } catch (\Throwable $th) {
