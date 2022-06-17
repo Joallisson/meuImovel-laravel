@@ -64,24 +64,24 @@ class RealStateController extends Controller
 
    public function update($id, RealStateRequest $request){
 
-    $data = $request->all();
+        $data = $request->all();
 
-    try {
+        try {
 
-        $realState = $this->realState->findOrFail($id);
-        $realState->update($data);
+            $realState = $this->realState->findOrFail($id);
+            $realState->update($data);
 
-        return response()->json([
-            'data' => [
-                'msg' => 'Imóvel atualizado com sucesso'
-            ]
-        ]);
+            return response()->json([
+                'data' => [
+                    'msg' => 'Imóvel atualizado com sucesso'
+                ]
+            ]);
 
-    } catch (\Throwable $th) {
+        } catch (\Throwable $th) {
 
-        $message = new ApiMessages($th->getMessage());
-        return response()->json($message->getMessege(), 401);
-    }
+            $message = new ApiMessages($th->getMessage());
+            return response()->json($message->getMessege(), 401);
+        }
    }
 
    public function destroy($id){
