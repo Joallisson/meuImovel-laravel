@@ -16,7 +16,7 @@ class RealStateController extends Controller
     }
 
    public function index(){
-       $realState = $this->realState->paginate('10');
+       $realState = $this->realState->paginate('50');
 
        return response()->json($realState, 200);
    }
@@ -47,6 +47,10 @@ class RealStateController extends Controller
 
             $realState = $this->realState->create($data);
 
+            if (isset($data['categories']) && count($data('categories'))) {
+                $realState->categories()->sync($data['categories']);
+            }
+
             return response()->json([
                 'data' => [
                     'msg' => 'imóvel cadastrado com sucesso'
@@ -64,12 +68,16 @@ class RealStateController extends Controller
 
    public function update($id, RealStateRequest $request){
 
-        $data = $request->all();
+        $realState = $data = $request->all();
 
         try {
 
             $realState = $this->realState->findOrFail($id);
             $realState->update($data);
+
+            if (isset($data['categories']) && count($data('categories'))) {
+                $realState->categories()->sync($data['categories']);
+            }
 
             return response()->json([
                 'data' => [

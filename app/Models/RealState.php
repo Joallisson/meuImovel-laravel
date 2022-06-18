@@ -26,6 +26,6 @@ class RealState extends Model
     }
 
     public function categories(){
-        $this->belongsToMany(Category::class);
+        $this->hasMany(Category::class, 'real_state_categories');
     }
 }
