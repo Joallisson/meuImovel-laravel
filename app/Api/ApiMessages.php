@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Api\ApiMessages;
+namespace App\Api;
 
 class ApiMessages{
 

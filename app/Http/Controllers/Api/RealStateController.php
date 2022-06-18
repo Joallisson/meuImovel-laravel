@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Api\ApiMessages\ApiMessages;
+use App\Api\ApiMessages;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\RealStateRequest;
 use App\Models\RealState;

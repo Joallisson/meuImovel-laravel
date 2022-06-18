@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Api\ApiMessages\ApiMessages;
+use App\Api\ApiMessages;
 use App\Http\Requests\CategoryRequest;
 use App\Models\Category;
-use Facade\FlareClient\Api;
+//use Facade\FlareClient\Api;
 
 class CategoryController extends Controller
 {
@@ -50,9 +50,9 @@ class CategoryController extends Controller
             ]);
 
         } catch (\Throwable $th) {
-            return response()->json($th->getMessage());
-            // $message = new ApiMessages($th->getMessage());
-            // return response()->json($message->getMessege(), 401);
+            //return response()->json($th->getMessage());
+            $message = new ApiMessages($th->getMessage());
+            return response()->json($message->getMessege(), 401);
         }
     }
 

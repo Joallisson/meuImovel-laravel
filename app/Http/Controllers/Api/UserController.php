@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Api\ApiMessages\ApiMessages;
+use App\Api\ApiMessages;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -133,15 +133,15 @@ class UserController extends Controller
 
             $user = $this->user->findOrFail($id);
             $user->delete();
-    
+
             return response()->json([
                 'data' => [
                     'msg' => 'Usuário removido com sucesso'
                 ]
             ]);
-    
+
         } catch (\Throwable $th) {
-    
+
             $message = new ApiMessages($th->getMessage());
             return response()->json($message->getMessege(), 401);
         }
