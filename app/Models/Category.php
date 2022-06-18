@@ -13,5 +13,7 @@ class Category extends Model
         'slug'
     ];
 
-    //use HasFactory;
+    public function realStates(){
+        return $this->belongsToMany(RealState::class);
+    }
 }
