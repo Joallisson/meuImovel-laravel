@@ -6,6 +6,7 @@ use App\Api\ApiMessages;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
@@ -44,10 +45,20 @@ class UserController extends Controller
             return response()->json($message->getMessege(), 401);
         }
 
+        Validator::make($data, [
+            'phone' => 'required',
+            'mobile' => 'required]'
+        ]);
+
         try {
 
             $data['password'] = bcrypt($data['password']);
             $user = $this->user->create($data);
+
+            $user->profile()->create([
+                'phone' => $data['phone'],
+                'mobile_phone' => $data['mobile_phone']
+            ]);
 
             return response()->json([
                 'data' => [
