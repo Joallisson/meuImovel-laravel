@@ -48,7 +48,7 @@ class UserController extends Controller
         Validator::make($data, [
             'profile.phone' => 'required', //o profile.phone é usado por que a chave phone está dentro de um array
             'profile.mobile_phone' => 'required]'
-        ]);
+        ])->validate();
 
         try {
 
@@ -119,7 +119,7 @@ class UserController extends Controller
         Validator::make($data, [
             'profile.phone' => 'required', //o profile.phone é usado por que a chave phone está dentro de um array
             'profile.mobile_phone' => 'required]'
-        ]);
+        ])->validate();
 
         try {
             $profile = $data['profile'];
