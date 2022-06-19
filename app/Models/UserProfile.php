@@ -12,7 +12,7 @@ class UserProfile extends Model
         'phone',
         'mobile_phone',
         'about',
-        'social_network'
+        'social_networks'
     ];
 
     public function user(){

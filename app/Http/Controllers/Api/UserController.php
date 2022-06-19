@@ -46,8 +46,8 @@ class UserController extends Controller
         }
 
         Validator::make($data, [
-            'phone' => 'required',
-            'mobile' => 'required]'
+            'profile.phone' => 'required', //o profile.phone é usado por que a chave phone está dentro de um array
+            'profile.mobile_phone' => 'required]'
         ]);
 
         try {
@@ -55,10 +55,10 @@ class UserController extends Controller
             $data['password'] = bcrypt($data['password']);
             $user = $this->user->create($data);
 
-            $user->profile()->create([
-                'phone' => $data['phone'],
-                'mobile_phone' => $data['mobile_phone']
-            ]);
+            $profile = $data['profile'];
+            $profile['social_networks'] = serialize($profile['social_networks']);
+
+            $user->profile()->create($profile);
 
             return response()->json([
                 'data' => [
@@ -107,17 +107,31 @@ class UserController extends Controller
     {
         $data = $request->all();
 
+        //dd($data);
+
         if(!$request->has('password') && !$request->get('password'))
         {
             $data['password'] = bcrypt($data['password']);
         }else{
-            unset($data['password']);
+            unset($data['password']); //A função unset anula uma variável
         }
 
+        Validator::make($data, [
+            'profile.phone' => 'required', //o profile.phone é usado por que a chave phone está dentro de um array
+            'profile.mobile_phone' => 'required]'
+        ]);
+
         try {
+            $profile = $data['profile'];
+            $profile['social_networks'] = serialize($profile['social_networks']);
 
             $user = $this->user->findOrFail($id);
             $user->update($data);
+
+
+            $user->profile()->update($profile);
+
+            //dd($profile);
 
             return response()->json([
                 'data' => [
