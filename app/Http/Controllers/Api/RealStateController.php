@@ -47,8 +47,8 @@ class RealStateController extends Controller
 
             $realState = $this->realState->create($data);
 
-            if (isset($data['categories']) && count($data('categories'))) {
-                $realState->categories()->sync($data['categories']);
+            if (isset($data['categories']) && $data['categories'] > 0) { //se $data['categories'] existir e for maior que 0
+                $realState->categories()->attach($data['categories']); //então insere na tabela pivot intermediária category_real_state os iIDs da categoria e do real state
             }
 
             return response()->json([
@@ -58,7 +58,6 @@ class RealStateController extends Controller
             ]);
 
         } catch (\Throwable $th) {
-
             $message = new ApiMessages($th->getMessage());
             return response()->json($message->getMessege(), 401);
         }
@@ -75,8 +74,8 @@ class RealStateController extends Controller
             $realState = $this->realState->findOrFail($id);
             $realState->update($data);
 
-            if (isset($data['categories']) && count($data('categories'))) {
-                $realState->categories()->sync($data['categories']);
+            if (isset($data['categories']) && $data['categories'] > 0) { //se $data['categories'] existir e for maior que 0
+                $realState->categories()->sync($data['categories']); //então atualioza na tabela pivot intermediária category_real_state os iIDs da categoria e do real state
             }
 
             return response()->json([
