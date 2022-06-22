@@ -54,9 +54,15 @@ class RealStateController extends Controller
             }
 
             if($images){
+                $imagesUploaded = [];
+
                 foreach($images as $image){
-                    $image->store('images', 'public');
+                    $path = $image->store('images', 'public');
+
+                    $imagesUploaded[] = ['photo' => $path, 'is_thumb' => 0];
                 }
+
+                $realState->photos()->createMany($imagesUploaded);
             }
 
             return response()->json([
@@ -76,6 +82,7 @@ class RealStateController extends Controller
    public function update($id, RealStateRequest $request){
 
         $realState = $data = $request->all();
+        $images = $request->file('images');
 
         try {
 
@@ -84,6 +91,18 @@ class RealStateController extends Controller
 
             if (isset($data['categories']) && $data['categories'] > 0) { //se $data['categories'] existir e for maior que 0
                 $realState->categories()->sync($data['categories']); //então atualioza na tabela pivot intermediária category_real_state os iIDs da categoria e do real state
+            }
+
+            if($images){
+                $imagesUploaded = [];
+
+                foreach($images as $image){
+                    $path = $image->store('images', 'public');
+
+                    $imagesUploaded[] = ['photo' => $path, 'is_thumb' => 0];
+                }
+
+                $realState->photos()->createMany($imagesUploaded);
             }
 
             return response()->json([
