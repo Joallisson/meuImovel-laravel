@@ -43,12 +43,20 @@ class RealStateController extends Controller
 
         $data = $request->all();
 
+        $images = $request->file('images');
+
         try {
 
             $realState = $this->realState->create($data);
 
             if (isset($data['categories']) && $data['categories'] > 0) { //se $data['categories'] existir e for maior que 0
                 $realState->categories()->attach($data['categories']); //então insere na tabela pivot intermediária category_real_state os iIDs da categoria e do real state
+            }
+
+            if($images){
+                foreach($images as $image){
+                    $image->store('images', 'public');
+                }
             }
 
             return response()->json([
