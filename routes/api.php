@@ -1,8 +1,10 @@
 <?php
 
 use App\Http\Controllers\Api\RealStateController;
+use App\Http\Controllers\Api\RealStatePhotoController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\CategoryController;
+use App\Models\RealStatePhoto;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -37,5 +39,11 @@ Route::prefix('v1')->group(function(){
 
         Route::get('categories/{id}/states', [CategoryController::class, 'realStates']);
         Route::resource('categories', CategoryController::class);
+    });
+
+    Route::name('photos.')->prefix('photos')->group(function(){
+
+        Route::put('/set-thumb/{photoId}/{realStateId}', [RealStatePhotoController::class, 'setThumb'])->name('atualizar');
+        Route::delete('/{id}', [RealStatePhotoController::class, 'remove'])->name('delete');
     });
 });
