@@ -25,7 +25,7 @@ class RealStateController extends Controller
 
         try {
 
-            $realState = $this->realState->findOrFail($id);
+            $realState = $this->realState->with('photos')->findOrFail($id); //buscando os imovóveis com as fotos
 
              return response()->json([
                 'data' => $realState
