@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\Auth\LoginJwtController;
 use App\Http\Controllers\Api\RealStateController;
 use App\Http\Controllers\Api\RealStatePhotoController;
+use App\Http\Controllers\Api\RealStateSearchController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\CategoryController;
 use App\Models\RealStatePhoto;
@@ -29,6 +30,8 @@ Route::prefix('v1')->group(function(){
     Route::post('login', [LoginJwtController::class, 'login'])->name('login');
     Route::get('logout', [LoginJwtController::class, 'logout'])->name('logout');
     Route::get('refresh', [LoginJwtController::class, 'refresh'])->name('refresh');
+
+    Route::get('search', [RealStateSearchController::class, 'index']);
 
     Route::group(['middleware' => 'jwt.auth'], function(){ //Rotas protegidas pelo middleware jwt
 
