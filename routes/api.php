@@ -28,25 +28,30 @@ Route::prefix('v1')->group(function(){
 
     Route::post('login', [LoginJwtController::class, 'login'])->name('login');
 
-    Route::name('real-states.')->group(function(){
+    Route::group(['middleware' => 'jwt.auth'], function(){ //Rotas protegidas pelo middleware jwt
 
-        Route::resource('real-states', RealStateController::class);
+        Route::name('real-states.')->group(function(){
+
+            Route::resource('real-states', RealStateController::class);
+        });
+
+        Route::name('users.')->group(function(){
+
+            Route::resource('users', UserController::class);
+        });
+
+        Route::name('categories.')->group(function(){
+
+            Route::get('categories/{id}/states', [CategoryController::class, 'realStates']);
+            Route::resource('categories', CategoryController::class);
+        });
+
+        Route::name('photos.')->prefix('photos')->group(function(){
+
+            Route::put('/set-thumb/{photoId}/{realStateId}', [RealStatePhotoController::class, 'setThumb'])->name('atualizar');
+            Route::delete('/{id}', [RealStatePhotoController::class, 'remove'])->name('delete');
+        });
+
     });
 
-    Route::name('users.')->group(function(){
-
-        Route::resource('users', UserController::class);
-    });
-
-    Route::name('categories.')->group(function(){
-
-        Route::get('categories/{id}/states', [CategoryController::class, 'realStates']);
-        Route::resource('categories', CategoryController::class);
-    });
-
-    Route::name('photos.')->prefix('photos')->group(function(){
-
-        Route::put('/set-thumb/{photoId}/{realStateId}', [RealStatePhotoController::class, 'setThumb'])->name('atualizar');
-        Route::delete('/{id}', [RealStatePhotoController::class, 'remove'])->name('delete');
-    });
 });
