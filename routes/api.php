@@ -27,6 +27,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::prefix('v1')->group(function(){
 
     Route::post('login', [LoginJwtController::class, 'login'])->name('login');
+    Route::get('logout', [LoginJwtController::class, 'logout'])->name('logout');
+    Route::get('refresh', [LoginJwtController::class, 'refresh'])->name('refresh');
 
     Route::group(['middleware' => 'jwt.auth'], function(){ //Rotas protegidas pelo middleware jwt
 
