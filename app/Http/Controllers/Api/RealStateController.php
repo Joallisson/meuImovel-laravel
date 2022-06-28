@@ -16,16 +16,16 @@ class RealStateController extends Controller
     }
 
    public function index(){
-       $realState = $this->realState->paginate('50');
+        $realState = auth('api')->user()->real_state();
 
-       return response()->json($realState, 200);
+        return response()->json($realState->paginate(50), 200);
    }
 
    public function show($id){
 
         try {
 
-            $realState = $this->realState->with('photos')->findOrFail($id); //buscando os imovóveis com as fotos
+            $realState = auth('api')->user()->real_state()->with('photos')->findOrFail($id); //buscando os imovóveis com as fotos se o usuário estiver autenticado
 
              return response()->json([
                 'data' => $realState
@@ -46,6 +46,8 @@ class RealStateController extends Controller
         $images = $request->file('images');
 
         try {
+
+            $data['user_id'] = auth('api')->user()->id; //Se o usuário passar o id no frontend então ele vai ser sobreescrito pelo id do usuário autenticado
 
             $realState = $this->realState->create($data);
 
@@ -86,7 +88,7 @@ class RealStateController extends Controller
 
         try {
 
-            $realState = $this->realState->findOrFail($id);
+            $realState = auth('api')->user()->real_state()->findOrFail($id);
             $realState->update($data);
 
             if (isset($data['categories']) && $data['categories'] > 0) { //se $data['categories'] existir e for maior que 0
@@ -122,7 +124,8 @@ class RealStateController extends Controller
 
     try {
 
-        $realState = $this->realState->findOrFail($id);
+        $realState = auth('api')->user()->real_state()->findOrFail($id);
+
         $realState->delete();
 
         return response()->json([
