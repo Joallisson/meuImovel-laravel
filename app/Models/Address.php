@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Address extends Model
 {
+    protected $table = 'address'; //Arrumando o nome da tabela, pois foi criado a migration com o nome errado
     public function state(){
         return $this->belongsTo(State::class);
     }
