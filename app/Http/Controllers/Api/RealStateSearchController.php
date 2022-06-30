@@ -18,9 +18,6 @@ class RealStateSearchController extends Controller
 
     public function index(Request $request)
     {
-        return $this->realState->whereHas('address', function($q){
-            $q->where('state_id', 1)->where('city_id', 3);
-        })->get();
 
         $repository = new RealStateRepository($this->realState);
 
@@ -30,6 +27,8 @@ class RealStateSearchController extends Controller
         if($request->has('fields')){
             $repository->selectFilter($request->get('fields'));
         }
+
+        $repository->setLocation($request->all(['state', 'city']));
 
         return response()->json([
             'data' => $repository->getResult()->paginate(10)
