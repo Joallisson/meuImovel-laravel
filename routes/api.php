@@ -31,7 +31,9 @@ Route::prefix('v1')->group(function(){
     Route::get('logout', [LoginJwtController::class, 'logout'])->name('logout');
     Route::get('refresh', [LoginJwtController::class, 'refresh'])->name('refresh');
 
-    Route::get('search', [RealStateSearchController::class, 'index']);
+    Route::get('search', [RealStateSearchController::class, 'index'])->name('search');
+
+    Route::get('search/{real_state_id}', [RealStateSearchController::class, 'show'])->name('search_single');
 
     Route::group(['middleware' => 'jwt.auth'], function(){ //Rotas protegidas pelo middleware jwt
 

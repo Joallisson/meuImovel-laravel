@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Api\ApiMessages;
 use App\Http\Controllers\Controller;
 use App\Models\RealState;
 use App\Repository\RealStateRepository;
@@ -37,7 +38,16 @@ class RealStateSearchController extends Controller
 
     public function show($id)
     {
-        //
+        try {
+            $realState = $this->realState->with('address')->with('photos')->findOrFail($id);
+
+            return response()->json([
+                'data' => $realState
+            ], 200);
+        } catch (\Throwable $th) {
+            $message = new ApiMessages($th->getMessage());
+            return response()->json($message->getMessege(), 401);
+        }
     }
 
 }
