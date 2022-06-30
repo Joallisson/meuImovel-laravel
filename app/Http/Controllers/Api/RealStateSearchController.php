@@ -16,7 +16,7 @@ class RealStateSearchController extends Controller
         $this->realState = $realState;
     }
 
-    public function index(Request $request)
+    public function index(Request $request) //exemplo: {{base_url}}/api/v1/search?fields=title,content,price&state=1&city=1
     {
 
         $repository = new RealStateRepository($this->realState);
