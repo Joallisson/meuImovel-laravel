@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class RealState extends Model
 {
+    //protected $appends = ['_links']; //adicionado esse atributo no retorno da tabela real_states
 
     protected $fillable = [
         'user_id',
@@ -20,6 +21,14 @@ class RealState extends Model
         'total_property_area',
         'slug'
     ];
+
+    //depois arrumar esse link dinamico //O NOME DESSE CONCEITO DE CRIAR LINKS DINÂMICOS NO LARAVEL SE CHAMA: ACCESSORS
+    // public function getLinksAttribute(){ //chamando o atributo links toda vez que retorna todos os atributos tabela real_states
+    //     return [
+    //         'href' => route('real_states.real-states.show', ['realState' => $this->id]),
+    //         'rel' => 'Imovéis'
+    //     ];
+    // }
 
     public function user(){
         return $this->belongsTo(User::class);

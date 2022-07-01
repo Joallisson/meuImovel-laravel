@@ -37,7 +37,7 @@ Route::prefix('v1')->group(function(){
 
     Route::group(['middleware' => 'jwt.auth'], function(){ //Rotas protegidas pelo middleware jwt
 
-        Route::name('real-states.')->group(function(){
+        Route::name('real_states.')->group(function(){
 
             Route::resource('real-states', RealStateController::class);
         });
