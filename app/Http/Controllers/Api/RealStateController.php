@@ -25,7 +25,12 @@ class RealStateController extends Controller
 
         try {
 
-            $realState = auth('api')->user()->real_state->with('photos')->findOrFail($id); //buscando os imovóveis com as fotos se o usuário estiver autenticado
+            $realState = auth('api')
+                        ->user()
+                        ->real_state()
+                        ->with('photos')
+                        ->findOrFail($id)
+                        ->makeHidden('thumb');//a função makeHidden() oculta o atributi thumb do json //buscando os imovóveis com as fotos se o usuário estiver autenticado
 
              return response()->json([
                 'data' => $realState
